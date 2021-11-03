@@ -43,6 +43,27 @@ module.exports = {
         })
     },
 
+    updateCategory: async (req, res) => {
+        const category = await Category.findByIdAndUpdate(
+            req.params.id,
+            {
+                name: req.body.name,
+                icon: req.body.icon,
+                color: req.body.color
+            },
+            //This is the third parameter used to get back the updated category and not the old one
+            {new: true}
+        )
+
+        if(!category){
+            return res.status(400).send('The category cannot be created')
+        }
+        else{
+            return res.send(category)
+        }
+
+    },
+
     deleteCategory: (req, res) => {
         Category.findByIdAndRemove(req.params.id)
         .then(category => {
