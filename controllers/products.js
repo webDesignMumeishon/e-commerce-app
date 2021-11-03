@@ -1,11 +1,15 @@
-const {Products} = require('../model/Products')
+const Products = require('../model/products')
+const ProductBuilder = require('../controllers/classes/productClass')
 
 
 module.exports = {
     createProduct: (req, res) =>{
         const {name, image, countInStock} = req.body
 
-        Products.create(req.body)
+        const newProduct = new ProductBuilder(name)
+        newProduct.setImg(image).setStock(countInStock)
+
+        Products.create(newProduct.build())
         .then(response => {
             res.status(201).json({
                 msg: "Product Created",
