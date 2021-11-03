@@ -11,7 +11,6 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
-
     
     richDescription: {
         type: String,
@@ -51,6 +50,11 @@ const productSchema = new Schema({
     },
 
     rating:{
+        type: Number,
+        default: 0
+    },
+
+    numReviews:{
         type: Number,
         default: 0
     },
