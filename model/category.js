@@ -16,4 +16,4 @@ const categorySchema = new Schema({
 })
 
 //Compiling the schema into a Model
-module.exports = model('Categories', categorySchema)
+module.exports = model('Category', categorySchema)

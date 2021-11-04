@@ -46,7 +46,10 @@ module.exports = {
     },
 
     getSingleProducts: (req, res) => {
-        const productList = Products.findById(req.params.id)
+        //if i want to display the products information with the category name instead of the category ID  
+        //I need to use the .populate(). Populate means that any connected id or field to another table will be display 
+        // in this table
+        Products.findById(req.params.id).populate('category')
         .then(list => {
             res.json(list)
         })
