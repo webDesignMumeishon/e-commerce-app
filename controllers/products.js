@@ -43,5 +43,24 @@ module.exports = {
         .then(list => {
             res.json(list)
         })
+    },
+
+    getSingleProducts: (req, res) => {
+        const productList = Products.findById(req.params.id)
+        .then(list => {
+            res.json(list)
+        })
+    },
+
+    getProductsNames: (req, res) => {
+        //.select is to select an specific field of the document
+        //if i want to select multiple fields I enter the field names separete by spacing ('name category')
+        //if I want to exclude a fild I insert the field name and a minus symbol ('-_id')
+        Products.find().select('name -_id')
+        .then(list => {
+            res.json(list)
+        })
     }
+
+
 }
