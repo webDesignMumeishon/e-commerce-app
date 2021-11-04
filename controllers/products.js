@@ -9,7 +9,6 @@ module.exports = {
         const category = await Category.findById(req.body.category)
         if(!category) return res.status(400).send('Invalid Category')
 
-        console.log(req.body);
         const newProduct = new ProductBuilder(req.body.name)
         newProduct.setDescription(req.body.description)
         .setRichDescription(req.body.richDescription)
@@ -63,6 +62,39 @@ module.exports = {
         .then(list => {
             res.json(list)
         })
+    },
+
+    updateSingleProduct: async (req, res) => {
+        
+        const category = await Category.findById(req.body.category)
+        if(!category) return res.status(400).send('Invalid Category')
+
+        const newProduct = new ProductBuilder(req.body.name)
+        newProduct.setDescription(req.body.description)
+        .setRichDescription(req.body.richDescription)
+        .setImg(req.body.image)
+        .setBrand(req.body.brand)
+        .setPrice(req.body.price)
+        .setCategory(req.body.category)
+        .setStock(req.body.countInStock)
+        .setRating(req.body.rating)
+        .setNumReviews(req.body.numReviews)
+        .setFeature(req.body.isFeature)
+
+        const product = await Products.findByIdAndUpdate(
+            req.params.id,
+            newProduct.build(),
+            //This is the third parameter used to get back the updated category and not the old one
+            {new: true}
+        )
+
+        if(!product){
+            return res.status(400).send('The product cannot be created')
+        }
+        else{
+            return res.send(product)
+        }
+
     }
 
 
