@@ -58,7 +58,7 @@ const productSchema = new Schema({
         type: Number,
         default: 0
     },
-
+    //this determines if the product is displayed in the main page or not
     isFeature: {
         type: Boolean,
         default: false

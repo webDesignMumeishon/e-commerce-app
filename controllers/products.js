@@ -130,5 +130,21 @@ module.exports = {
         })
     },
 
+    getFeatureProducts: (req, res) => {
+        const count = req.params.count ? req.params.count : 0 
+        //we put the fields that we want inside the brackets
+        //in this case I will get all the products with feature true
+        Products.find({isFeature: true}).limit(+count)
+        .then(count => {
+            if(!count) return res.status(500).json({success: false})
+            else return res.json({success: true, count})    
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(500).json(err)
+        })
+    },
+    
+
 
 }
