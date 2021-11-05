@@ -144,6 +144,24 @@ module.exports = {
             return res.status(500).json(err)
         })
     },
+
+    getProductsCategory: (req, res) => {
+        let filter = {}
+
+        if(req.query.categories){
+            filter = {category: req.query.categories.split(",")}
+        }
+
+        Products.find(filter).populate('category')
+        .then(count => {
+            if(!count) return res.status(500).json({success: false})
+            else return res.json({success: true, count})    
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(500).json(err)
+        })
+    },
     
 
 
