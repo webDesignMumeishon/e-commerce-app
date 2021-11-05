@@ -1,6 +1,7 @@
 const Products = require('../model/products')
 const Category = require('../model/category')
 const ProductBuilder = require('../controllers/classes/productClass')
+const mongoose = require('mongoose')
 
 
 module.exports = {
@@ -65,7 +66,11 @@ module.exports = {
     },
 
     updateSingleProduct: async (req, res) => {
-        
+        //here we check if the id is a valid one with a mongoose method
+        if(!mongoose.isValidObjectId(req.params.id)){
+            return res.status(400).send('Invalid product id')
+        }
+
         const category = await Category.findById(req.body.category)
         if(!category) return res.status(400).send('Invalid Category')
 
@@ -89,12 +94,28 @@ module.exports = {
         )
 
         if(!product){
-            return res.status(400).send('The product cannot be created')
+            return res.status(400).send('The product cannot be updated')
         }
         else{
             return res.send(product)
         }
 
+    },
+
+    deleteSingleProduct: (req, res) => {
+        Products.findByIdAndRemove(req.params.id)
+        .then(product => {
+            if(product){
+                return res.status(200).json({success: true, message: `the product was deleted`})
+            }
+            else{
+                return res.status(404).json({success: false, message: 'Product not found'})
+            }
+
+        })
+        .catch(err => {
+            return res.status(400).json({success: false, error: err})
+        })
     }
 
 
