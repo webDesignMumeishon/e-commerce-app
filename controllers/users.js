@@ -64,7 +64,35 @@ module.exports = {
         else{
             return res.status(400).send("Password in wrong")
         }
-        // return res.status(200).send(user)
-    }
+    },
+
+    countUsers: async (req, res) => {
+        User.countDocuments()
+        .then(count => {
+            if(!count) return res.status(500).json({success: false})
+            else return res.json({success: true, count})    
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(500).json(err)
+        })
+    },
+
+    deleteUser: (req, res) => {
+        User.findByIdAndRemove(req.params.id)
+        .then(user => {
+            if(user){
+                return res.status(200).json({success: true, message: `the user was deleted`})
+            }
+            else{
+                return res.status(404).json({success: false, message: 'user not found'})
+            }
+
+        })
+        .catch(err => {
+            return res.status(400).json({success: false, error: err})
+        })
+    },
+
     
 }
