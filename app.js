@@ -1,6 +1,7 @@
 const express = require("express")
 const morgan = require("morgan")
 const app = express()
+const authJwt = require('./helpers/jwt')
 const morgar = require('morgan')
 const mongoose = require('mongoose')
 const routesEndPoints = require('./routes/index')
@@ -28,6 +29,7 @@ mongoose.connect(MONGODB_CONNECTION, {
 //Middlewares
 app.use(express.json())
 app.use(morgan('tiny'))
+app.use(authJwt())
 
 app.use(API_URL + '/', routesEndPoints)
 
