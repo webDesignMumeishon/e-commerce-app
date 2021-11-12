@@ -5,7 +5,8 @@ function authJwt(){
     // the functions checks in all the routes the token for validation
     return expressJwt({
         secret, 
-        algorithms: ['HS256']
+        algorithms: ['HS256'],
+        isRevoked: isRevoked
     })
     // with the unless method we exclude some routes to validate through tokens
     .unless({
@@ -16,6 +17,14 @@ function authJwt(){
             {url: /\/api\/v1\/category(.*)/, methods: ["GET", "OPTIONS"]}
         ]
     })
+}
+
+async function isRevoked(req, payload, done){
+    if(!payload.isAdmin){
+        done(null, true)
+    }
+
+    done()
 }
 
 module.exports = authJwt
