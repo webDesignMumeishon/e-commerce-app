@@ -14,16 +14,23 @@ module.exports = {
             city: req.body.city,
             country: req.body.country,
         })
-
-        console.log(user);
         user = await user.save()
         return res.json(user)
     },
 
     getUsers: (req, res) => {
-        User.find()
+        User.find().select('-passwordHash')
         .then(r => {
             res.json(r)
         })
-    }
+    },
+
+    getSingleUser: (req, res) => {
+        //(-) this is to exclude the field 
+        User.findById(req.params.id).select('-passwordHash')
+        .then(user => {
+            res.json(user)
+        })
+    },
+    
 }
