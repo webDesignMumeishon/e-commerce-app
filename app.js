@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const routesEndPoints = require('./routes/index')
 const cors = require('cors')
 const {getProducts} = require('./controllers/products')
+const {errorHandler} = require('./helpers/error-hendler')
 require('dotenv/config')
 
 app.use(cors())
@@ -30,9 +31,9 @@ mongoose.connect(MONGODB_CONNECTION, {
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(authJwt())
+app.use(errorHandler)
 
 app.use(API_URL + '/', routesEndPoints)
-
 
 app.listen(3000, () => {
     console.log(API_URL)
