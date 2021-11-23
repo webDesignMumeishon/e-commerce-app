@@ -37,9 +37,9 @@ const orderSchema = mongoose.Schema({
     totalPrice: {
         type: Number,
     },
-    status: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
-        red: "User",
+        ref: "User",
     },
     dateOrdered: {
         type: Date,

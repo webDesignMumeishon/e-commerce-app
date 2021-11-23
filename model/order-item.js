@@ -8,7 +8,7 @@ const orderItemSchema = mongoose.Schema({
     //We need to link this order item to the product
     product: {  
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Product"
+        ref: "Products"
     }
 })
 
